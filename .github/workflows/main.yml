@@ -32,9 +32,9 @@ jobs:
       run: xcodebuild
         -sdk iphonesimulator
         -configuration Debug
-        -scheme UhooiPicBook
+        -scheme aruaru-lt-mobile-9-demo
         -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max'
-        -skip-testing:UhooiPicBookUITests
+        -skip-testing:aruaru-lt-mobile-9-demoUITests
         clean test
         | bundle exec xcpretty --report html
     - name: Convert Code coverage to HTML
