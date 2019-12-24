@@ -11,6 +11,10 @@ jobs:
     # ソースコードを取得する
     - uses: actions/checkout@v1
 
+    # Ruby製のライブラリをインストールする
+    - name: Bundle install
+      run: bundle install
+
     # ビルドする
     - name: Xcode build
       run: xcodebuild
