@@ -1,0 +1,8 @@
+coverage_service: cobertura_xml
+xcodeproj: aruaru-lt-mobile-9-demo.xcodeproj
+#workspace: aruaru-lt-mobile-9-demo.xcworkspace
+scheme: aruaru-lt-mobile-9-demo
+#ignore:
+    #- Pods/*
+    #- Carthage/*
+
