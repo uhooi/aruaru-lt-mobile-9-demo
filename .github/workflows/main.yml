@@ -4,14 +4,46 @@ on: [push]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: macOS-latest
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_11.2.1.app/Contents/Developer
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - name: Show Applications
+      run: ls /Applications
+    - name: Show Xcode version
+      run: xcodebuild -version
+    - name: Bundle install
+      run: bundle install
+    #- name: Pod install
+      #run: pod install
+    #- name: Install Carthage frameworks
+      #run: |
+        #carthage bootstrap --platform iOS --cache-builds
+        #echo '*** Resolved dependencies:'
+        #cat 'Cartfile.resolved'
+    - name: Xcode build
+      run: xcodebuild
+        -sdk iphonesimulator
+        -configuration Debug
+        build
+        | bundle exec xcpretty
+    - name: Xcode test
+      run: xcodebuild
+        -sdk iphonesimulator
+        -configuration Debug
+        -scheme UhooiPicBook
+        -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max'
+        -skip-testing:UhooiPicBookUITests
+        clean test
+        | bundle exec xcpretty --report html
+    - name: Convert Code coverage to HTML
+      run: bundle exec slather coverage --html --output-directory html_report
+    - uses: actions/upload-artifact@v1
+      with:
+        name: test-results
+        path: build/reports
+    - uses: actions/upload-artifact@v1
+      with:
+        name: test-coverage
+        path: html_report
